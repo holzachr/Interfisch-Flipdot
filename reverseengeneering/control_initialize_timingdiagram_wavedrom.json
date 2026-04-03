@@ -1,0 +1,16 @@
+{signal: [
+  {name: '~clear',		wave: '0.....1......0..0.0..1..1.1..0.'}, //controlBuffer
+  {name: '~clock',		wave: '0..1..1......1..1.1..0..1.1..1.'}, //controlBuffer
+  {name: '~reset',		wave: '0.....0......0..1.1..1..1.1..1.'}, //controlBuffer
+  {name: '~select',		wave: '0..1..1......1..1.0..0..0.1..1.'}, //controlBuffer, selectBoard()
+  {name: 'Y', 			wave: 'x2.2....2..2...................', data: ['0','0','65535','0',]}, //columnBuffer
+  {name: '~Shift_SCL',	wave: '01.............................'}, //high after init
+  {name: '~Shift_OE',	wave: '01..0..........................'},
+  {name: 'Shift_RCK',	wave: '01010.1010.1010.1010.10.1010.10', 
+   						node: '...a..b....c.z..d.e..f..g.h..i.'}, //pulses high after flushRegisters(). flushregisters writes controlBuffer and columnBuffer to output
+],
+ config: { skin: 'default'},
+   edge : ['a->b 30 ms', 'b->c 200 us', 'z->d 100 us', 'e->f 200 us', 'f->g 20 us', 'h->i 30 us']
+}
+
+  

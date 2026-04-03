@@ -1,0 +1,21 @@
+{signal: [
+  ['Row Driver',
+  {name: 'sr_data', wave: 'x3..|..x...................', data: ['row data   [16]']},
+  {name: 'sr_clk', wave:  '0.p.|...l..................'},
+  {name: 'sr_latch',wave: '0.......pl.................'},
+  {name: 'sr_oe', wave:   '1................0....1....'},
+  ],
+  {},
+  ['Column Driver',
+  {name: 'reset', wave:   '1........0............1....'},
+  {name: 'data', wave:    'x........4..|..x...........', data: ['column     [50]']},
+  {name: 'clock', wave:   '0.........p.|...l..........'},
+  ],
+  ['Power',
+  {},
+  {name: 'clear', wave:   '0..........................'},
+  {name: 'drive', wave:   '0.................1..0.....', node: '..................A..B.....' },
+  ],
+],
+edge: ['A-B DRIVEDOTSET']
+}

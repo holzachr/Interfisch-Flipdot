@@ -1,0 +1,3 @@
+[submodule "driverboardAnnax37623/libs/kicad"]
+	path = driverboardAnnax37623/libs/kicad
+	url = https://gitlab.com/VictorLamoine/kicad.git
