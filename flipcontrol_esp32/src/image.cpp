@@ -126,86 +126,17 @@ void Image::setBuffer_Preset_Checkers()
     flag_updating = true; //make update run
 }
 
+void Image::setBuffer_Preset_CheckersInverse()
+{
+    for (int i = 0; i < getW(); i++)
+    {
+        if (i % 2)
+            backBuffer[i] = 0x5555;
+        else
+            backBuffer[i] = 0xAAAA;
+    }    
 
-void Image::setBuffer_Preset_Datamatrixctdo() //Datamatrix ctdo.de
-{    
-    backBuffer[0]=0b1111111111111111;
-    backBuffer[1]=0b1111111111111111;
-    backBuffer[2]=0b1111111111111111;
-    backBuffer[3]=0b1111111111111111;
-    backBuffer[4]=0b1111111111111111;
-    backBuffer[5]=0b1111111111111111;
-    backBuffer[6]=0b1111111111111111;
-    backBuffer[7]=0b1111111111111111;
-    backBuffer[8]=0b1111111111111111;
-    backBuffer[9]=0b1111111111111111;
-    backBuffer[10]=0b1111111111111111;
-    backBuffer[11]=0b1111111111111111;
-    backBuffer[12]=0b1111111111111111;
-    backBuffer[13]=0b1111111111111111;
-    backBuffer[14]=0b1111111111111111;
-    backBuffer[15]=0b1111111111111111;
-    backBuffer[16]=0b1111111111111111;
-    backBuffer[17]=0b1111111111111111;
-    backBuffer[18]=0b1111111111111111;
-    backBuffer[19]=0b1111111111111111;
-    backBuffer[20]=0b1111111111111111;
-    backBuffer[21]=0b1111111111111111;
-    backBuffer[22]=0b1111111111111111;
-    backBuffer[23]=0b1111111111111111;
-    backBuffer[24]=0b1111111111111111;
-    backBuffer[25]=0b1111111111111111;
-    backBuffer[26]=0b1111111111111111;
-    backBuffer[27]=0b1111111111111111;
-    backBuffer[28]=0b1111111111111111;
-    backBuffer[29]=0b1111111111111111;
-    backBuffer[30]=0b1111111111111111;
-    backBuffer[31]=0b1000000000000001;
-    backBuffer[32]=0b1000100101100111;
-    backBuffer[33]=0b1011111100110001;
-    backBuffer[34]=0b1010110011001011;
-    backBuffer[35]=0b1011010001001101;
-    backBuffer[36]=0b1000000001011011;
-    backBuffer[37]=0b1001110110001001;
-    backBuffer[38]=0b1001101101011011;
-    backBuffer[39]=0b1010011100011101;
-    backBuffer[40]=0b1010111111001111;
-    backBuffer[41]=0b1010110101110001;
-    backBuffer[42]=0b1001100110110111;
-    backBuffer[43]=0b1000111010011101;
-    backBuffer[44]=0b1010101010101011;
-    backBuffer[45]=0b1111111111111111;
-    backBuffer[46]=0b1111111111111111;
-    backBuffer[47]=0b1111111111111111;
-    backBuffer[48]=0b1111111111111111;
-    backBuffer[49]=0b1111111111111111;
-    backBuffer[50]=0b1111111111111111;
-    backBuffer[51]=0b1111111111111111;
-    backBuffer[52]=0b1111111111111111;
-    backBuffer[53]=0b1111111111111111;
-    backBuffer[54]=0b1111111111111111;
-    backBuffer[55]=0b1111111111111111;
-    backBuffer[56]=0b1111111111111111;
-    backBuffer[57]=0b1111111111111111;
-    backBuffer[58]=0b1111111111111111;
-    backBuffer[59]=0b1111111111111111;
-    backBuffer[60]=0b1111111111111111;
-    backBuffer[61]=0b1111111111111111;
-    backBuffer[62]=0b1111111111111111;
-    backBuffer[63]=0b1111111111111111;
-    backBuffer[64]=0b1111111111111111;
-    backBuffer[65]=0b1111111111111111;
-    backBuffer[66]=0b1111111111111111;
-    backBuffer[67]=0b1111111111111111;
-    backBuffer[68]=0b1111111111111111;
-    backBuffer[69]=0b1111111111111111;
-    backBuffer[70]=0b1111111111111111;
-    backBuffer[71]=0b1111111111111111;
-    backBuffer[72]=0b1111111111111111;
-    backBuffer[73]=0b1111111111111111;
-    backBuffer[74]=0b1111111111111111;
-
-    flag_updating=true; //make update run
+    flag_updating = true; //make update run
 }
 
 void Image::setBufferColumn(uint8_t _colnum, uint16_t _rowdata)
@@ -418,136 +349,6 @@ bool Image::isBuffersEqual() {
         }
     }
     return true;
-}
-
-void Image::loop_testDots() {
-
-    static bool init=false;
-    if (!init) {
-        flipdot.setRow(0);
-        Serial.println("Clearing Display");
-        for (int l=0;l<COLUMNS;l++) {
-            flipdot.selectColumnClear(l%COLUMNS);
-
-
-            if (!flipdot.clearSelectedColumn()) {
-                Serial.println("Error clearing column!");
-            }else{
-                Serial.println("Cleared");
-            }
-
-            delay(50);
-        }
-        init=true;
-        Serial.println("Finished Clearing");
-        delay(1000);
-    }
-    
-
-    
-
-    Serial.println("Clearing");
-    flipdot.setRow(0);
-    flipdot.selectColumnClear(23);
-    if (!flipdot.clearSelectedColumn()) {
-        Serial.println("Error clearing column!");
-    }
-    delay(50);
-
-    flipdot.setRow(0);
-    flipdot.selectColumnClear(24);
-    if (!flipdot.clearSelectedColumn()) {
-        Serial.println("Error clearing column!");
-    }
-    delay(100);
-    
-
-    Serial.println("Setting");
-    for (int i=23;i<25;i++) {
-        flipdot.selectColumnSet(i); //lower column number is on the left
-        
-        flipdot.setRow(0);
-        flipdot.setRow(flipdot.getRow()+pow(2, 4));//low significant bits are lower rows (when connector at top)
-        flipdot.setRow(flipdot.getRow()+pow(2, 5));//low significant bits are lower rows (when connector at top)
-        flipdot.setSelectedDot();
-        delay(50);
-    }
-
-    delay(100);
-
-    countz++;
-    countz%=14;
-
-    //init=false;
-}
-
-
-void Image::loop_drawClearTest() {
-
-    static bool init=false;
-    if (!init) {
-        flipdot.setRow(0);
-        Serial.println("Clearing Display");
-        for (int l=0;l<COLUMNS;l++) {
-            flipdot.selectColumnClear(l%COLUMNS);
-
-            if (!flipdot.clearSelectedColumn()) {
-                Serial.println("Error clearing column!");
-            }else{
-                Serial.println("Cleared");
-            }
-
-            delay(20);
-        }
-        init=true;
-        delay(1000);
-    }
-    
-
-
-    
-    Serial.print("count=");
-    Serial.print(countz);Serial.print(": ");
-
-    //setting colX to 128, 32, 8,2 (or a combination of), then appling 12V to driver and GND to Clear, clears these colums
-        // this applies +12v to selected columns
-    //setting colX to 64,16,4,1 (or a combination of), then setting row shift registers to some setting sets the selected dots
-        // this applies GND to selected columns
-    //reset pin on annax board input should be used (not pulled to gnd for a short time) after dots have been flipped (to disable potentially activated transistors)
-
-
-    //cycle testing set dots        
-    flipdot.selectColumnSet(countz/ROWS); //lower column number is on the left
-    flipdot.setRow(pow(2, (countz)%ROWS));//low significant bits are lower rows (when connector at top)
-
-    
-    
-        
-    /*Serial.print("Row="); Serial.print(row); Serial.print(" Col=");
-    for (uint8_t i=0;i<7;i++) {
-        Serial.print(","); Serial.print(col[i]);
-    }
-    Serial.println();*/
-    //reset pin on ribbon cable high (12Vpullup/open), then low (via Transistor)
-
-    unsigned long starttime=micros();
-
-    flipdot.setSelectedDot();
-
-
-    unsigned long shiftduration=micros()-starttime;
-    Serial.println("");
-    Serial.print("Duration="); Serial.println(shiftduration);
-
-
-    
-    countz++;
-
-    if (countz>=ROWS*COLUMNS) {
-        countz=0;
-        init=false;
-    }
-
 }
 
 

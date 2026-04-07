@@ -1,5 +1,4 @@
 #include <Arduino.h>
-
 #include <Homie.h>
 
 HomieNode displayNode("display", "Display", "display");
@@ -17,7 +16,8 @@ unsigned long last_update=0;
 
 bool clearFirst=true;
 bool optimizeClear=false;
-bool optimizeSet=false;
+bool optimizeSet=true;
+bool firstDraw = true;
 
 uint8_t stringToBool(String s);
 
@@ -72,8 +72,18 @@ void loop() {
     
     static unsigned long last_change=0;
 
-    UpdateReturn result = flip.updateByColumn(clearFirst, optimizeClear, optimizeSet); //0=not finished, 1=finished
-    //UpdateReturn result=flip.updateByColumn(true,false,false); //0=not finished, 1=finished   <- most simple
+    UpdateReturn result;
+    if (firstDraw)
+    {
+        // Uncertain state after power-up, clear everything
+        UpdateReturn result = flip.updateByColumn(true, false, false); //0=not finished, 1=finished        
+    }
+    else
+    {
+        // Certain state after first draw, use optimizeClear / optimizeSet
+        UpdateReturn result = flip.updateByColumn(clearFirst, optimizeClear, optimizeSet); //0=not finished, 1=finished
+    }    
+
     static UpdateReturn last_result = finished;
     if (last_result == nochange && result != last_result) { //was finished but has just started updating again
         last_change = loopmillis; //display started changing dots. set starting time.
@@ -81,6 +91,7 @@ void loop() {
     last_result = result;
     if (result == finished) //just finished
     {
+        firstDraw = false;
         unsigned long duration=millis()-last_change;
         Serial.print("Last Change took "); Serial.print(duration); Serial.println(" ms");
         Serial.print("Update max took "); Serial.print(flip.updateDuration); Serial.println(" ms");
@@ -131,9 +142,9 @@ bool presetHandler(const HomieRange& range, const String& value)
     }else if(value == "checkers"){
         flip.setBuffer_Preset_Checkers();
         Homie.getLogger() << "Preset is checkers" << endl;
-    }else if(value == "datamatrixctdo"){
-        flip.setBuffer_Preset_Datamatrixctdo();
-        Homie.getLogger() << "Preset is datamatrixctdo" << endl;
+    }else if(value == "checkers-inverse"){
+        flip.setBuffer_Preset_CheckersInverse();
+        Homie.getLogger() << "Preset is checkers-inverse" << endl;
     }else if(value == "random"){
         flip.setBuffer_random(50);
     }else if(value == "uptime") {

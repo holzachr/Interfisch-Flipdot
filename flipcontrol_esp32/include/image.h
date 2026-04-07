@@ -68,11 +68,7 @@ public:
 
     void setBuffer_Preset_Stripes();
     void setBuffer_Preset_Checkers();
-    void setBuffer_Preset_Datamatrixctdo();
-    
-
-    void loop_testDots();
-    void loop_drawClearTest();
+    void setBuffer_Preset_CheckersInverse();
 
     void redraw();
 
